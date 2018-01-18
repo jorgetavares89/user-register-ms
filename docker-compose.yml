@@ -1,0 +1,27 @@
+version: '2'
+services:
+  user-register-ms:
+    image: user-register-ms:0.0.1
+    container_name: user-register-ms
+    ports:
+      - "8080:8080"
+      - "7000:7000"
+    depends_on:
+      - user-register-db
+    environment:
+      - DB_URL=jdbc:mariadb://user-register-db:3306/user-register
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - HIBERNATE_DDL_AUTO=create
+      - ENV=dev-local
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=7000
+  user-register-db:
+    image: mariadb:latest
+    container_name: user-register-db
+    volumes:
+      - ~/local_db_users/:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=user-register
+    ports:
+      - 3306:3306
