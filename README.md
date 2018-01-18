@@ -1,15 +1,15 @@
-# Payment Methods Java Microservice
+# User Register Java Microservice
 
-This is the Payment Methods microservice, a `Spring Boot` with a `Maria-DB` database responsible to list a payment methods based on Restaurant. Where a `Restaurant` as a many `PaymentMethods` and a `PaymentMethod` as many `Restaurant`.
+The User register microservice, a `Spring Boot` with a `Maria-DB` database responsible create a new `User` register and returns the self link using `Spring HATEOS`
 
 In this microservice, we have the following technologies:
 
  - Spring Boot
- - Spring Web
+ - Spring Web with HATEOS
  - Spring Data
  - Docker and Docker Compose
- - Controller Advice (to handle the Exceptions)
- -  And some patterns as, Builder, Factory...
+ - Controller Advice (to handle Exceptions)
+ - And some patterns as, Builder, Factory...
 
 # Running on Local environment
 
@@ -26,7 +26,7 @@ To run this application in local environment we need to :
 
 ## Build Docker image
 
-To build de docker image, we need to install the [https://gradle.org/install/](Gradle) or use the wrapper that can be find in root application path. After cloned the repos, run: `$ cd country-gateway-ms`and `$ gradle buildDockerImage`and than, the image should be generated with the name  `payment-methods-ms:0.0.1`
+To build de docker image, we need to install the [https://gradle.org/install/](Gradle) or use the wrapper that can be find in root application path. After cloned the repos, run: `$ cd user-register-ms`and `$ gradle buildDockerImage`and than, the image should be generated with the name  `user-register-ms:0.0.1`
 . To see, run: `$ docker images` 
 
 	Notes: 
