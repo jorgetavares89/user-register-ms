@@ -9,6 +9,7 @@ import com.jorge.tokenvalidation.model.result.UserResource;
 import com.jorge.tokenvalidation.model.result.UserResult;
 import com.jorge.tokenvalidation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,18 +19,25 @@ public class UserService {
 
     private UserRepository repository;
     private UserFactory factory;
+    private SnsNotificationSender<UserResult> notificationSender;
+    @Value("${amazon.aws.sns.topic.name.user.created}")
+    private String createdTopicName;
 
     @Autowired
     public UserService(UserRepository repository,
-                       UserFactory factory) {
+                       UserFactory factory,
+                       SnsNotificationSender<UserResult> notificationSender) {
         this.repository = repository;
         this.factory = factory;
+        this.notificationSender = notificationSender;
     }
 
     public UserResult create(UserRequest userRequest) {
         final User user = factory.create(userRequest);
         final User created = repository.save(user);
-        return factory.createResult(created);
+        final UserResult result = factory.createResult(created);
+        notificationSender.send(createdTopicName, result);
+        return result;
     }
 
     public List<User> findAll() {

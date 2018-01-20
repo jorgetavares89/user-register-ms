@@ -2,6 +2,8 @@ package com.jorge.tokenvalidation.model.result;
 
 import com.google.gson.Gson;
 
+import java.util.Objects;
+
 public class UserResult {
 
     private Long id;
@@ -78,5 +80,30 @@ public class UserResult {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserResult that = (UserResult) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(phone, that.phone);
+    }
 
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, email, phone);
+    }
+
+    @Override
+    public String toString() {
+        return "UserResult{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

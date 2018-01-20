@@ -21,13 +21,13 @@ public class ServiceAspectLogging {
 		LOG.info("["+reference+"] will be executed");
 	}
 
-	@After("execution(* com.jorge.tokenvalidation.*.*(..))")
+	@After("execution(* com.jorge.tokenvalidation.service.*.*(..))")
 	public void afterMethodExecution(JoinPoint joinPoint) {
 		String reference = getReference(joinPoint);
 		LOG.info("["+reference+"] executed");
 	}
 
-	@AfterReturning(pointcut = "execution(* com.jorge.tokenvalidation.*.*(..))",
+	@AfterReturning(pointcut = "execution(* com.jorge.tokenvalidation.service.*.*(..))",
 			returning = "result")
 	public void afterReturningMethodExecution(JoinPoint joinPoint, Object result) {
 		String reference = getReference(joinPoint);
