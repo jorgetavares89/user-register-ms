@@ -1,7 +1,6 @@
 package com.jorge.tokenvalidation.controller;
 
 import com.amazonaws.services.sns.model.SubscribeRequest;
-import com.amazonaws.services.sns.model.SubscribeResult;
 import com.jorge.tokenvalidation.service.SnsSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -23,8 +22,8 @@ public class SnsSubscribeController {
     }
 
     @PostMapping
-    public HttpEntity<SubscribeResult> subscribe (@RequestBody SubscribeRequest request) {
-        final SubscribeResult result = service.subscribe(request);
+    public HttpEntity<String> subscribe (@RequestBody SubscribeRequest request) {
+        final String result = service.subscribe(request);
         return ResponseEntity
                 .ok()
                 .body(result);

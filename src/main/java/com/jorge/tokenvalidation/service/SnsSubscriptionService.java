@@ -2,8 +2,8 @@ package com.jorge.tokenvalidation.service;
 
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.model.SubscribeRequest;
-import com.amazonaws.services.sns.model.SubscribeResult;
 import com.amazonaws.services.sns.model.Topic;
+import com.jorge.tokenvalidation.model.result.SubscribeResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,9 @@ public class SnsSubscriptionService {
         this.userCreatedTopic = userCreatedTopic;
     }
 
-    public SubscribeResult subscribe(SubscribeRequest request) {
+    public String subscribe(SubscribeRequest request) {
         request.setTopicArn(userCreatedTopic.getTopicArn());
-        return amazonSNS.subscribe(request);
+        final String subscriptionArn = amazonSNS.subscribe(request).getSubscriptionArn();
+        return new SubscribeResult(subscriptionArn).toJson();
     }
 }
