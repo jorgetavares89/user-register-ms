@@ -17,12 +17,10 @@ public class UserFactory {
                 .build();
     }
 
-    public UserResult createResult(User user) {
+    public UserResult createResult(User user, String token) {
         return new UserResult.Builder()
                 .withId(user.getId())
-                .withName(user.getName())
-                .withEmail(user.getEmail())
-                .withPhone(user.getPhone())
+                .withToken(token)
                 .build();
     }
 

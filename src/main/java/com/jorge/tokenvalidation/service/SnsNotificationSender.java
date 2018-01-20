@@ -6,7 +6,7 @@ import org.springframework.cloud.aws.messaging.core.NotificationMessagingTemplat
 import org.springframework.stereotype.Service;
 
 @Service
-public class SnsNotificationSender<T> {
+public class SnsNotificationSender {
 
     private final NotificationMessagingTemplate notificationMessagingTemplate;
 
@@ -15,7 +15,7 @@ public class SnsNotificationSender<T> {
         this.notificationMessagingTemplate = new NotificationMessagingTemplate(amazonSns);
     }
 
-    public void send(String topicName, T object) {
-        this.notificationMessagingTemplate.convertAndSend(topicName, object);
+    public void send(String topicName, String json) {
+        this.notificationMessagingTemplate.convertAndSend(topicName, json);
     }
 }

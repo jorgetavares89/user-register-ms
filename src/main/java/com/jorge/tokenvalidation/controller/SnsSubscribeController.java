@@ -5,7 +5,6 @@ import com.amazonaws.services.sns.model.SubscribeResult;
 import com.jorge.tokenvalidation.service.SnsSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

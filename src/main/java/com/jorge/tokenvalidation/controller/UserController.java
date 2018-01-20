@@ -27,7 +27,11 @@ public class UserController {
     @PostMapping
     public HttpEntity<UserResource> create(@RequestBody UserRequest userRequest) {
         final UserResult result = service.create(userRequest);
-        final Link link = linkTo(UserController.class).slash(result.getId()).withSelfRel();
+        final Link link = linkTo(UserController.class)
+                            .slash(result.getId())
+                            .slash("token")
+                            .slash(result.getToken())
+                            .withSelfRel();
         final UserResource resource = new UserResource(link);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

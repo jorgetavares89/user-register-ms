@@ -43,7 +43,7 @@ services:
     environment:
       - ENV=dev-local
       - SQS_ENDPOINT=http://aws-local-slack:4576
-      - SQS_CREATED_QUEUE_NAME=user-token-auth-queue
+      - SQS_CREATED_QUEUE_NAME=user-created-queue
       - DB_URL=jdbc:mariadb://user-token-auth-db:3306/user-token-auth
       - DB_USER=root
       - DB_PASSWORD=root

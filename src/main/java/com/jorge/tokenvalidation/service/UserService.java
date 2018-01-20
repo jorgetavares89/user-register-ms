@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 @Service
@@ -19,14 +20,14 @@ public class UserService {
 
     private UserRepository repository;
     private UserFactory factory;
-    private SnsNotificationSender<UserResult> notificationSender;
+    private SnsNotificationSender notificationSender;
     @Value("${amazon.aws.sns.topic.name.user.created}")
     private String createdTopicName;
 
     @Autowired
     public UserService(UserRepository repository,
                        UserFactory factory,
-                       SnsNotificationSender<UserResult> notificationSender) {
+                       SnsNotificationSender notificationSender) {
         this.repository = repository;
         this.factory = factory;
         this.notificationSender = notificationSender;
@@ -35,8 +36,8 @@ public class UserService {
     public UserResult create(UserRequest userRequest) {
         final User user = factory.create(userRequest);
         final User created = repository.save(user);
-        final UserResult result = factory.createResult(created);
-        notificationSender.send(createdTopicName, result);
+        final UserResult result = factory.createResult(created, generateToken());
+        notificationSender.send(createdTopicName, result.toJson());
         return result;
     }
 
@@ -44,6 +45,12 @@ public class UserService {
         List<User> methods = Lists.newArrayList(repository.findAll());
         if (methods.isEmpty()) throw new NotFoundException("Users not found");
         return methods;
+    }
+
+    private String generateToken() {
+        SecureRandom secureRandom = new SecureRandom();
+        long longToken = Math.abs( secureRandom.nextLong() );
+        return Long.toString( longToken, 16 );
     }
 
 }
