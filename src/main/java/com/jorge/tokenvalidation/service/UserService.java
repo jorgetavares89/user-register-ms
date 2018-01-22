@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.jorge.tokenvalidation.exception.NotFoundException;
 import com.jorge.tokenvalidation.model.entity.User;
 import com.jorge.tokenvalidation.model.factory.UserFactory;
+import com.jorge.tokenvalidation.model.request.UserCreatedEvent;
 import com.jorge.tokenvalidation.model.request.UserRequest;
 import com.jorge.tokenvalidation.model.result.UserResource;
 import com.jorge.tokenvalidation.model.result.UserResult;
@@ -37,7 +38,7 @@ public class UserService {
         final User user = factory.create(userRequest);
         final User created = repository.save(user);
         final UserResult result = factory.createResult(created, generateToken());
-        notificationSender.send(createdTopicName, result.toJson());
+        notificationSender.send(createdTopicName, new UserCreatedEvent(result.getId(), result.getToken()));
         return result;
     }
 

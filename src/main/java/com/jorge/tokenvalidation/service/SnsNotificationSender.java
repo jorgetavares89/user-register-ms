@@ -1,6 +1,7 @@
 package com.jorge.tokenvalidation.service;
 
 import com.amazonaws.services.sns.AmazonSNS;
+import com.jorge.tokenvalidation.model.request.UserCreatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.aws.messaging.core.NotificationMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class SnsNotificationSender {
         this.notificationMessagingTemplate = new NotificationMessagingTemplate(amazonSns);
     }
 
-    public void send(String topicName, String json) {
-        this.notificationMessagingTemplate.convertAndSend(topicName, json);
+    public void send(String topicName, UserCreatedEvent userCreatedEvent) {
+        this.notificationMessagingTemplate.convertAndSend(topicName, userCreatedEvent);
     }
 }
