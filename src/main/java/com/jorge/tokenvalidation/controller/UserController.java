@@ -9,12 +9,13 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RestController
-@RequestMapping("/users")
 public class UserController {
 
     private final UserService service;
@@ -27,14 +28,27 @@ public class UserController {
     @PostMapping
     public HttpEntity<UserResource> create(@RequestBody UserRequest userRequest) {
         final UserResult result = service.create(userRequest);
-        final Link link = linkTo(UserController.class)
-                            .slash(result.getId())
-                            .slash("token")
-                            .slash(result.getToken())
-                            .withSelfRel();
-        final UserResource resource = new UserResource(link);
+        final Link self = createSelfLink(result);
+        final Link auth = createAuthenticationLink(result);
+        final UserResource resource = new UserResource(self);
+        resource.add(auth);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(resource);
+    }
+
+    private Link createSelfLink(UserResult result) {
+        return linkTo(UserController.class)
+                                .slash(result.getId())
+                                .withSelfRel();
+    }
+
+    private Link createAuthenticationLink(UserResult result) {
+        return linkTo(UserController.class)
+                    .slash("auth")
+                    .slash(result.getToken())
+                    .slash("target")
+                    .slash(result.getId())
+                    .withRel("authentication");
     }
 }
