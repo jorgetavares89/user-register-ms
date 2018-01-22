@@ -26,7 +26,7 @@ To run this application in local environment we need to :
 
 ## Build Docker image
 
-To build de docker image, we need to install the [https://gradle.org/install/](Gradle) or use the wrapper that can be find in root application path. After cloned the repos, run: `$ cd user-register-ms`and `$ gradle buildDockerImage`and than, the image should be generated with the name  `user-register-ms:0.0.1`
+To build de docker image, we need to install the [https://gradle.org/install/](Gradle) or use the wrapper that can be find in root application path. After cloned the repos, run: `$ gradle buildDockerImage` alfter that, the image should be generated with the name  `user-register-ms:0.0.1`
 . To see, run: `$ docker images` 
 
 	Notes: 
